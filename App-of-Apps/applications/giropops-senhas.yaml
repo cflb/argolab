@@ -9,7 +9,7 @@ spec:
     namespace: giropops
   project: cflblabs
   source:
-    path: giropops-senhas/helm
+    path: samples/descomplicando-argocd/giropops-senhas/helm
     repoURL: https://github.com/cflb/argolab.git
     targetRevision: develop
   syncPolicy:
