@@ -5,22 +5,3 @@
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
   args:
     creates: /etc/kubernetes/manifests/argo-cd
-
-
-
-# - name: waiting for 1 minute - This is need for argocd to be online
-#   shell: |
-#     sleep 60
-# 
-# - name: Expose Argocd at the 10.1.0.11:8088
-#   shell: |
-#     kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8088:443 &
-# 
-# - name: Verify if argocd online
-#   command: curl http://10.1.0.11:8088
-#   register: argocd_check
-#   failed_when: false
-# 
-# - name: Display Kubernetes Cluster Nodes
-#   debug:
-#     msg: "{{ argocd_check.stdout }}"
