@@ -1,0 +1,25 @@
+---
+- name: apt - update cache
+  apt:
+    update_cache: yes
+
+- name: apt - preventing prompt
+  shell: "echo 'grub-pc grub-pc/install_devices_empty   boolean true' | debconf-set-selections"
+
+- name: apt - upgrade packages
+  apt:
+    upgrade: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: apt - install packages
+  apt:
+    name: "{{ common_packages }}"
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: apt - downloading gpg key
+  shell: (wget -qO /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg; wget -qO- https://download.docker.com/linux/debian/gpg | apt-key add -)
+  register: apt_key
+  changed_when: "apt_key.rc != 0"

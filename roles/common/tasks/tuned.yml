@@ -1,0 +1,21 @@
+---
+- name: tuned - install tuned
+  apt:
+    name: tuned
+    state: present
+
+- name: tuned - get current policy
+  command: "tuned-adm active"
+  register: tuned_active_policy
+  changed_when: false
+
+- name: tuned - set policy to network-latency
+  command: "tuned-adm profile {{ tuned_policy }}"
+  when:
+  - tuned_policy not in tuned_active_policy.stdout
+
+- name: tuned - enable and start tuned
+  systemd:
+    name: tuned
+    enabled: yes
+    state: started

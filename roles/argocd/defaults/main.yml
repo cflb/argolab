@@ -1,0 +1,12 @@
+---
+kubernetes_version: "1.32.0-1.1"
+kubernetes_data_dir: "/kubernetes"
+kubernetes_config_path: "/etc/kubernetes"
+kubernetes_service: "kubelet"
+kubernetes_lock: /tmp/kubernetes.lock
+kubernetes_packages:
+  - apt-transport-https
+  - procps
+  - kubeadm={{ kubernetes_version }}
+  - kubelet={{ kubernetes_version }}
+  - kubectl={{ kubernetes_version }}

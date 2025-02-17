@@ -1,0 +1,25 @@
+---
+# tasks file for sysstat_install
+- name: Apt-update and Install sysstat
+  ansible.builtin.apt:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sysstat
+
+- name: Copy sysstat file
+  ansible.builtin.copy:
+    src: sysstat
+    dest: /etc/default/sysstat
+
+- name: Copy sysstat-cron file
+  ansible.builtin.copy:
+    src: sysstat-cron
+    dest: /etc/cron.d/sysstat
+
+- name: Restart sysstat
+  ansible.builtin.service:
+    name: sysstat
+    enabled: yes
+    state: restarted

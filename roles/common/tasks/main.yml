@@ -1,0 +1,25 @@
+---
+- name: configure name servers
+  copy:
+    src: resolv.conf
+    dest: /etc/resolv.conf
+
+- name: apt - upgrade and install packages
+  import_tasks: apt.yml
+
+- name: hosts - build /etc/hosts file with public endpoints
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}.remote$'
+    line: "{{ hostvars[item].ansible_host }} {{item}}.remote"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.all }}"
+
+- name: hosts - build /etc/hosts file with intranet endpoints
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item.host }}$'
+    line: "{{ item.ip }} {{ item.host }}.l4b {{ item.host }}"
+    state: present
+  with_items: "{{ l4b_intranet }}"
