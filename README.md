@@ -33,7 +33,7 @@ Siga os passos abaixo para configurar o ambiente:
     - Instalar e configurar k3d.
     - Criar um cluster Kubernetes local com 1 controll-plane e 2 agentes.
     - Instalar e configurar o ArgoCD no namespace **argocd**.
-    - Te informa na tela Login e Senha usados para acessar o serviço esposto em: ***https://0.0.0.0:8088***
+    - Te informa na tela Login e Senha usados para acessar o serviço exposto em: ***https://0.0.0.0:8088***
     - Expõe o serviço do ArgoCD para acesso.
 
 ## Como acessar o serviço se eu parei o script?
