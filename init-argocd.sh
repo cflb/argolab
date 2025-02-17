@@ -15,12 +15,14 @@ sleep 5
 echo "📦 Instalando ArgoCD..."
 ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory playbook-argo.yml
 
-# Aguarda um tempo para garantir que a instalação do ArgoCD esteja concluída
-sleep 5
-
 # Define o KUBECONFIG para acessar o cluster Kubernetes criado
 export KUBECONFIG=./kubeconfig/config
 echo "✅ KUBECONFIG definido para acessar o cluster."
+
+# Aguarda um tempo para garantir que a instalação do ArgoCD esteja concluída
+sleep 60
+echo "É necessário esperar 1 minuto para o argocd terminar sua inicialização completa"
+echo "Se ao final houver algum erro, provavelmente o argocd ainda nao inicializou completamente, então garanta que ele esta funcucionando e depois exponha o serviço - Leia o README.md no Topico: **Como acessar o serviço se eu parei o script?** para mais informações sobre como executar o serviço manualmente."
 
 # Obtém a senha inicial do ArgoCD
 echo "🔑 Obtendo senha do usuário admin do ArgoCD..."
