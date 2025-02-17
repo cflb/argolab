@@ -23,15 +23,41 @@ Siga os passos abaixo para configurar o ambiente:
 2. **Executar o Script de Inicialização**
 
     ```bash
-    ./init-playbooks.sh
+    ./init-argocd.sh
     ```
 
 **Este script realiza as seguintes ações automaticamente:**
 
-1. Inicializa uma máquina virtual via Vagrant (vagrant up).
-2. Executa um playbook do Ansible para:
+1. Inicializa uma máquina virtual via Vagrant (vagrant up) e executa uma ***playbook.yml*** para fazer uma otimização de segurança no sistema operacionial que vai hospedar o cluster k3d.
+2. Executa a ***playbook-argo.yml*** do Ansible para:
     - Instalar e configurar k3d.
-    - Criar um cluster Kubernetes local.
-    - Instalar e configurar o ArgoCD.
+    - Criar um cluster Kubernetes local com 1 controll-plane e 2 agentes.
+    - Instalar e configurar o ArgoCD no namespace **argocd**.
     - Te informa na tela Login e Senha usados para acessar o serviço esposto em: ***https://0.0.0.0:80888***
     - Expõe o serviço do ArgoCD para acesso.
+
+## Como acessar o serviço se eu parei o script?
+
+Você não precisa iniciar o script novamente, você só precisa garantir que o cluster esta ativo. Também lembre que o kubeconfig necessário para acessar o cluster esta no diretório ***kubeconfig/*** criado apos a primeira execução com sucesso do script de inicialização.
+
+**Export o kubeconfig para usar o cluster k3d**
+
+Execute dentro do diretorio do Projeto clonado.
+
+```bash
+export KUBECONFIG=./kubeconfig/config
+```
+
+Você pode também definir este kubeconfig como padrão para você, copiando copiando o arquivo **config** (```cp kubeconfig/config $HOME/.kube/```) ele para o seu ***$HOME/.kube/***
+
+**Coletar senha padrão do argocd via segredo (você pode mudar esta senha quando quiser)**
+
+```bash
+kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode
+```
+
+**Expor agoracd on 0.0.0.0:8088 (você pode mudar a porta se quiser)***
+
+```bash
+kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8088:443
+```
