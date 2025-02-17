@@ -4,24 +4,20 @@ set -e  # Faz o script parar imediatamente se algum comando falhar
 
 echo "🚀 Iniciando a configuração do ambiente..."
 
-# Instala o ArgoCD usando Ansible
-echo "📦 Instalando K3d..."
-
-curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-k3d cluster delete k3d-cluster-1
 # Inicializa a VM com Vagrant
-echo "🔧 Iniciando a um cluster com k3d com 2 agentes."
-k3d cluster create k3d-cluster-1 --agents 2 --api-port 0.0.0.0:6443 --port "80:30080" --port "443:30443"
+echo "🔧 Iniciando a máquina virtual com Vagrant..."
+vagrant up
 
+# Aguarda um tempo para garantir que a VM está totalmente pronta
+sleep 5
+
+# Instala o ArgoCD usando Ansible
+echo "📦 Instalando ArgoCD..."
+ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory playbook-argo.yml
 
 # Define o KUBECONFIG para acessar o cluster Kubernetes criado
 export KUBECONFIG=./kubeconfig/config
 echo "✅ KUBECONFIG definido para acessar o cluster."
-
-# Instala o ArgoCD usando Ansible
-echo "📦 Instalando ArgoCD..."
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # Aguarda um tempo para garantir que a instalação do ArgoCD esteja concluída
 sleep 60
