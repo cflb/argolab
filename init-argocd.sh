@@ -30,9 +30,9 @@ PASSWORD=$(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath=
 
 # Exibe as credenciais de acesso ao ArgoCD
 echo "🎉 ArgoCD instalado com sucesso!"
+echo "🌍 Acesse o ArgoCD em: https://0.0.0.0:8088"
 echo "🔹 Login: admin"
 echo "🔹 Senha: $PASSWORD"
-echo "🌍 Acesse o ArgoCD em: https://0.0.0.0:8088"
 
 # Expondo o serviço do ArgoCD para acesso externo
 echo "🔄 Redirecionando porta 8088 para acesso ao ArgoCD..."
