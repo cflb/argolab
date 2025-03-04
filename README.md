@@ -20,10 +20,10 @@ Siga os passos abaixo para configurar o ambiente:
    git clone https://github.com/cflb/argolab.git
    cd argolab
 
-2. **Executar o Script de Inicialização**
+2. **Executar o Script de Inicialização - Com Vagrant**
 
     ```bash
-    ./init-argocd.sh
+    ./init-argocd-with-vagrant.sh
     ```
 
 **Este script realiza as seguintes ações automaticamente:**
@@ -61,3 +61,9 @@ kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```bash
 kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8088:443
 ```
+
+2. **Executar o Script de Inicialização - Na máquina local**
+
+    ```bash
+    ./init-argocd.sh
+    ```
